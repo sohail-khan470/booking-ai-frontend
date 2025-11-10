@@ -1,24 +1,31 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { Dashboard } from "./pages/Dashboard";
+import { VapiPage } from "./pages/VapiPage";
 import "./App.css";
+import AppointmentsPage from "./pages/AppointmentsPage";
+import CustomersPage from "./pages/CustomersPage";
+import ServicesPage from "./pages/ServicesPage";
+import StaffPage from "./pages/StaffPage";
+import { SlotsPage } from "./pages/Slots";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="min-h-screen bg-blue-500 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          Vite + Tailwind is working!
-        </h1>
-        <p className="text-gray-600 mb-4">Count: {count}</p>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setCount(count + 1)}
-        >
-          Increment
-        </button>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/appointments" element={<AppointmentsPage />} />
+          <Route path="/customers" element={<CustomersPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/staff" element={<StaffPage />} />
+          <Route path="/slots" element={<SlotsPage />} />
+          <Route path="/vapi" element={<VapiPage />} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

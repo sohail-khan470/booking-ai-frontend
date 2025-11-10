@@ -1,15 +1,16 @@
-// Core types matching your Prisma schema
-export interface Staff {
-  staffId: number;
-  name: string;
-  role?: string;
-}
+// Existing types (keep your current ones and add these)
 
 export interface Customer {
   customerId: number;
   name: string;
   phoneNumber?: string;
   email?: string;
+}
+
+export interface Staff {
+  staffId: number;
+  name: string;
+  role?: string;
 }
 
 export interface Service {
@@ -35,16 +36,6 @@ export interface Appointment {
   staff?: Staff;
 }
 
-export interface StaffSchedule {
-  scheduleId: number;
-  staffId: number;
-  dayOfWeek: string;
-  startTime: string;
-  endTime: string;
-  isAvailable: boolean;
-  staff?: Staff;
-}
-
 export interface Slot {
   slotId: number;
   staffId: number;
@@ -55,12 +46,39 @@ export interface Slot {
   staff?: Staff;
 }
 
-// Store types
-export interface AppState {
-  appointments: Appointment[];
-  staff: Staff[];
-  customers: Customer[];
-  services: Service[];
-  loading: boolean;
-  error: string | null;
+export interface CallLog {
+  callLogId: number;
+  callId: string;
+  phoneNumber?: string;
+  transcript?: string;
+  recordingUrl?: string;
+  cost?: number;
+  status: string;
+  appointmentId?: number;
+  createdAt: string;
+  updatedAt: string;
+  appointment?: Appointment;
+}
+
+export interface StaffSchedule {
+  scheduleId: number;
+  staffId: number;
+  dayOfWeek:
+    | "Monday"
+    | "Tuesday"
+    | "Wednesday"
+    | "Thursday"
+    | "Friday"
+    | "Saturday"
+    | "Sunday";
+  startTime: string;
+  endTime: string;
+  isAvailable: boolean;
+}
+
+export interface VapiWebhookPayload {
+  message: {
+    type: string;
+    [key: string]: unknown;
+  };
 }
