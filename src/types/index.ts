@@ -1,3 +1,14 @@
+// Auth types
+export interface User {
+  userId: number;
+  email: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
 // Existing types (keep your current ones and add these)
 
 export interface Customer {

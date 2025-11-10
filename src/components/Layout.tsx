@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useStore } from "../store/store";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
+  const { user, logout } = useStore();
 
   const navigation = [
     { name: "Dashboard", path: "/dashboard", icon: "📊" },
@@ -60,10 +62,23 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           ))}
         </nav>
 
-        {/* Footer */}
+        {/* User Info & Logout */}
         <div className="p-4 border-t border-gray-800">
+          {sidebarOpen && user && (
+            <div className="mb-3">
+              <p className="text-sm text-gray-300">Logged in as:</p>
+              <p className="text-sm font-medium text-white">{user.email}</p>
+            </div>
+          )}
+          <button
+            onClick={logout}
+            className="w-full flex items-center p-3 rounded-lg text-gray-300 hover:bg-red-600 hover:text-white transition-colors"
+          >
+            <span className="text-2xl">🚪</span>
+            {sidebarOpen && <span className="ml-3 font-medium">Logout</span>}
+          </button>
           {sidebarOpen && (
-            <div className="text-xs text-gray-400">
+            <div className="mt-3 text-xs text-gray-400">
               <p>© 2025 Booking System</p>
               <p className="mt-1">Powered by Vapi AI</p>
             </div>

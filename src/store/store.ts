@@ -6,10 +6,24 @@ import type {
   Staff,
   Customer,
   CallLog,
+  User,
+  AuthResponse,
 } from "../types";
 import api from "../utils/axios";
 
 interface AppState {
+  // Auth
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  authLoading: boolean;
+  authError: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  setAuthError: (error: string | null) => void;
+  setAuthFromToken: (token: string) => void;
+
   // Appointments
   appointments: Appointment[];
   appointmentsLoading: boolean;
@@ -74,6 +88,71 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set, get) => ({
+  // Auth
+  user: null,
+  token: null,
+  isAuthenticated: false,
+  authLoading: false,
+  authError: null,
+  login: async (email, password) => {
+    try {
+      set({ authLoading: true, authError: null });
+      const response = await api.post("/auth/login", { email, password });
+      const { user, token } = response.data.data;
+      localStorage.setItem("token", token);
+      set({
+        user,
+        token,
+        isAuthenticated: true,
+        authLoading: false,
+      });
+    } catch (error) {
+      set({
+        authError: error instanceof Error ? error.message : "Login failed",
+        authLoading: false,
+      });
+      throw error;
+    }
+  },
+  signup: async (email, password) => {
+    try {
+      set({ authLoading: true, authError: null });
+      const response = await api.post("/auth/signup", { email, password });
+      const { user, token } = response.data.data;
+      localStorage.setItem("token", token);
+      set({
+        user,
+        token,
+        isAuthenticated: true,
+        authLoading: false,
+      });
+    } catch (error) {
+      set({
+        authError: error instanceof Error ? error.message : "Signup failed",
+        authLoading: false,
+      });
+      throw error;
+    }
+  },
+  logout: () => {
+    localStorage.removeItem("token");
+    set({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+    });
+  },
+  setAuthError: (error) => set({ authError: error }),
+  setAuthFromToken: (token) => {
+    // For now, we'll just set the token and mark as authenticated
+    // In a real app, you might want to decode the token to get user info
+    set({
+      token,
+      isAuthenticated: true,
+      // You could decode JWT here to get user info if needed
+    });
+  },
+
   // Appointments
   appointments: [],
   appointmentsLoading: false,

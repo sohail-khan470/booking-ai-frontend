@@ -1,6 +1,14 @@
 import api from "./axios";
 import type { Appointment, Service, Slot, Staff, Customer } from "../types";
 
+// Auth API
+export const authApi = {
+  signup: (data: { email: string; password: string }) =>
+    api.post("/auth/signup", data),
+  login: (data: { email: string; password: string }) =>
+    api.post("/auth/login", data),
+};
+
 // Vapi API calls
 export const vapiApi = {
   healthCheck: () => api.get("/vapi/health"),
