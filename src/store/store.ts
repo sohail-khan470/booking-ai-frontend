@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 import type {
   Appointment,
   Service,
@@ -106,11 +107,15 @@ export const useStore = create<AppState>((set, get) => ({
         isAuthenticated: true,
         authLoading: false,
       });
+      toast.success("Login successful! Welcome back.");
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Login failed";
       set({
-        authError: error instanceof Error ? error.message : "Login failed",
+        authError: errorMessage,
         authLoading: false,
       });
+      toast.error(errorMessage);
       throw error;
     }
   },
@@ -126,11 +131,15 @@ export const useStore = create<AppState>((set, get) => ({
         isAuthenticated: true,
         authLoading: false,
       });
+      toast.success("Account created successfully! Welcome aboard.");
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Signup failed";
       set({
-        authError: error instanceof Error ? error.message : "Signup failed",
+        authError: errorMessage,
         authLoading: false,
       });
+      toast.error(errorMessage);
       throw error;
     }
   },
@@ -141,6 +150,7 @@ export const useStore = create<AppState>((set, get) => ({
       token: null,
       isAuthenticated: false,
     });
+    toast.info("You have been logged out successfully.");
   },
   setAuthError: (error) => set({ authError: error }),
   setAuthFromToken: (token) => {
