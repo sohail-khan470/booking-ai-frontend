@@ -84,7 +84,7 @@ export const useStore = create<AppState>((set, get) => ({
       set({ appointmentsLoading: true, appointmentsError: null });
       const response = await api.post("/appointments", appointment);
       set((state) => ({
-        appointments: [...state.appointments, response.data],
+        appointments: [...state.appointments, response.data.data],
       }));
     } catch (error) {
       set({
@@ -102,7 +102,7 @@ export const useStore = create<AppState>((set, get) => ({
       const response = await api.put(`/appointments/${id}`, appointment);
       set((state) => ({
         appointments: state.appointments.map((a) =>
-          a.appointmentId === id ? { ...a, ...response.data } : a
+          a.appointmentId === id ? { ...a, ...response.data.data } : a
         ),
       }));
     } catch (error) {
@@ -124,9 +124,9 @@ export const useStore = create<AppState>((set, get) => ({
   fetchAppointments: async () => {
     try {
       set({ appointmentsLoading: true, appointmentsError: null });
-      const response = await api.get("/appointments");
+      const response = (await api.get("/appointments")) as any;
       console.log(response);
-      const data = response.data;
+      const data = response.data.data;
 
       set({ appointments: Array.isArray(data) ? data : [] });
     } catch (error) {
@@ -168,7 +168,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ servicesLoading: true, servicesError: null });
       const response = await api.post("/services", service);
-      set((state) => ({ services: [...state.services, response.data] }));
+      set((state) => ({ services: [...state.services, response.data.data] }));
     } catch (error) {
       set({
         servicesError:
@@ -185,7 +185,7 @@ export const useStore = create<AppState>((set, get) => ({
       const response = await api.put(`/services/${id}`, service);
       set((state) => ({
         services: state.services.map((s) =>
-          s.serviceId === id ? { ...s, ...response.data } : s
+          s.serviceId === id ? { ...s, ...response.data.data } : s
         ),
       }));
     } catch (error) {
@@ -206,7 +206,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ servicesLoading: true, servicesError: null });
       const response = await api.get("/services");
-      const data = response.data;
+      const data = response.data.data;
       set({ services: Array.isArray(data) ? data : [] });
     } catch (error) {
       set({
@@ -255,7 +255,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ staffLoading: true, staffError: null });
       const response = await api.post("/staff", staff);
-      set((state) => ({ staff: [...state.staff, response.data] }));
+      set((state) => ({ staff: [...state.staff, response.data.data] }));
     } catch (error) {
       set({
         staffError:
@@ -272,7 +272,7 @@ export const useStore = create<AppState>((set, get) => ({
       const response = await api.put(`/staff/${id}`, staff);
       set((state) => ({
         staff: state.staff.map((s) =>
-          s.staffId === id ? { ...s, ...response.data } : s
+          s.staffId === id ? { ...s, ...response.data.data } : s
         ),
       }));
     } catch (error) {
@@ -293,7 +293,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ staffLoading: true, staffError: null });
       const response = await api.get("/staff");
-      const data = response.data;
+      const data = response.data.data;
       set({ staff: Array.isArray(data) ? data : [] });
     } catch (error) {
       set({
@@ -329,7 +329,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ customersLoading: true, customersError: null });
       const response = await api.post("/customers", customer);
-      set((state) => ({ customers: [...state.customers, response.data] }));
+      set((state) => ({ customers: [...state.customers, response.data.data] }));
     } catch (error) {
       set({
         customersError:
@@ -346,7 +346,7 @@ export const useStore = create<AppState>((set, get) => ({
       const response = await api.put(`/customers/${id}`, customer);
       set((state) => ({
         customers: state.customers.map((c) =>
-          c.customerId === id ? { ...c, ...response.data } : c
+          c.customerId === id ? { ...c, ...response.data.data } : c
         ),
       }));
     } catch (error) {
@@ -367,7 +367,7 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       set({ customersLoading: true, customersError: null });
       const response = await api.get("/customers");
-      const data = response.data;
+      const data = response.data.data;
       set({ customers: Array.isArray(data) ? data : [] });
     } catch (error) {
       set({

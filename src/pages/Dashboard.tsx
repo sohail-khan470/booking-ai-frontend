@@ -271,7 +271,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-white rounded-lg shadow p-6">
+          {/* <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Quick Actions
             </h2>
@@ -301,7 +301,7 @@ export const Dashboard: React.FC = () => {
                 View Call Logs
               </Link>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
